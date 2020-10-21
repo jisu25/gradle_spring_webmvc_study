@@ -36,6 +36,7 @@ public class ContextSqlSessionTest {
 		log.debug("session " + session);
 		Assert.assertNotNull(session);
 	}
+	
     @Test
     public void testSqlSessionGetConnection() {
         log.debug(Thread.currentThread().getStackTrace()[1].getMethodName() + "()");

@@ -22,8 +22,8 @@
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
-				gradle_spring_webmvc_study.config.MvcConfig
 				gradle_spring_webmvc_study.config.ControllerConfig
+				gradle_spring_webmvc_study.config.MvcConfig
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>

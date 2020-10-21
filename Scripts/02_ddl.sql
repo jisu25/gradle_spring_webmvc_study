@@ -7,3 +7,5 @@ CREATE TABLE MEMBER (
 	regdate DATE DEFAULT sysdate /* 가입일 */
 );
 
+ALTER TABLE MEMBER
+MODIFY email varchar2(40) UNIQUE;

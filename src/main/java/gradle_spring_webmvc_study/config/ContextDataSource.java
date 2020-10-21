@@ -17,7 +17,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@EnableTransactionManagement
+//@EnableTransactionManagement
 public class ContextDataSource {
 	/*
 	@Bean(destroyMethod = "close")
@@ -38,7 +38,7 @@ public class ContextDataSource {
 	*/
 	
 	
-	@Bean(destroyMethod = "close")
+	@Bean /*(destroyMethod = "close")*/
 	public DataSource dataSource() {
 	    HikariDataSource dataSource = null;
 	    try {
@@ -55,9 +55,9 @@ public class ContextDataSource {
 	}
 	
 	
-	public PlatformTransactionManager transactionManager() {
+	/*public PlatformTransactionManager transactionManager() {
 		DataSourceTransactionManager tm = new DataSourceTransactionManager();
 		tm.setDataSource(dataSource());
 		return tm;
-	}
+	}*/
 }
