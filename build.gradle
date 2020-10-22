@@ -44,6 +44,8 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
     testCompile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.13.3'
    
+   	compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+	compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.1.2.Final'
     
     testImplementation 'junit:junit:4.12'
 }

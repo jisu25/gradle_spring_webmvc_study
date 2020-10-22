@@ -1,11 +1,9 @@
 package gradle_spring_webmvc_study.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,12 +35,16 @@ public class RegisterController {
 	}
 	
 	@GetMapping("/step2")
-	public String handleStep2Get() {
+	public String handleStep2() {
 		return "redirect:/register/step1";
 	}
 	
 	@PostMapping("/step3")
-	public String handleStep2Get(RegisterRequest regReq) {
+	public String handleStep3Get(RegisterRequest regReq, Errors errors) {
+		new RegisterRequesterValidator().validate(regReq, errors);
+		if(errors.hasErrors()) {
+			return "register/step2";
+		}
 		try {
 			memberRegisterService.regist(regReq);
 			return "/register/step3";
