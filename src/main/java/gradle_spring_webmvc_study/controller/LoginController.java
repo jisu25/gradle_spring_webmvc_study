@@ -3,30 +3,54 @@ package gradle_spring_webmvc_study.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import gradle_spring_webmvc_study.dto.AuthInfo;
 import gradle_spring_webmvc_study.dto.Code;
 import gradle_spring_webmvc_study.dto.Login;
+import gradle_spring_webmvc_study.dto.LoginCommand;
 import gradle_spring_webmvc_study.dto.Os;
+import gradle_spring_webmvc_study.exception.WrongIdPasswordException;
+import gradle_spring_webmvc_study.service.AuthService;
 
 @Controller
+@RequestMapping("/login")
 public class LoginController {
 
-	@GetMapping("/login")
-	public String formGet(Login login/*, Model model*/) {
-		login.setLoginType("기업회원");
-		login.setJobCode("B");
+	@Autowired
+	private AuthService authService;
+	
+	@GetMapping
+	public String formGet(LoginCommand loginCommand/*, Model model*/) {
+//		login.setLoginType("기업회원");
+//		login.setJobCode("B");
 //		model.addAttribute("loginTypes", loginTypes);
 //		ModelAndView mav = new ModelAndView("login/loginForm", "loginTypes", loginTypes);
 		return "login/loginForm";
 	}
 	
-	@PostMapping("/result")
-	public String formPost(Login login) {
-		return "login/result";
+	@PostMapping
+	public String submit(LoginCommand loginCommand, Errors errors, HttpSession session) {
+		new LoginCommandValidator().validate(loginCommand, errors);
+		if(errors.hasErrors()) {
+			return "login/loginForm";
+		}
+		try {
+			AuthInfo authInfo = authService.authenicate(loginCommand.getEmail(), loginCommand.getPassword());
+			session.setAttribute("authInfo", authInfo);
+			return "login/loginSuccess";
+		} catch (WrongIdPasswordException ex) {
+			errors.reject("idPasswordNotMatching");
+			return "login/loginForm";
+		}
 	}
 	
 	@ModelAttribute("jobCodes")

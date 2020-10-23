@@ -6,9 +6,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import gradle_spring_webmvc_study.interceptor.AuthCheckInterceptor;
 
 @Configuration
 @EnableWebMvc
@@ -38,4 +41,18 @@ public class MvcConfig implements WebMvcConfigurer{
 		ms.setDefaultEncoding("UTF-8");
 		return ms;
 	}
+
+	@Bean
+	public AuthCheckInterceptor authCheckInterceptor() {
+		return new AuthCheckInterceptor();
+	}
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(authCheckInterceptor())
+			.addPathPatterns("/edit/**")
+			.excludePathPatterns("/edit/help/**");
+	}
+	
+	
 }
